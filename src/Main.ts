@@ -2,7 +2,7 @@
 import Factory from "./compoment/Factory";
 import TreeNode from "./compoment/tree/TreeNode";
 
-//test
+//try again
 class Main{
     constructor(){
         let t = Factory.get(TreeNode)

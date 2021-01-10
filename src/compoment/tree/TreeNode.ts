@@ -5,7 +5,7 @@ import Tree from "./Tree";
 import TreeNodeView from "./TreeNodeView";
 
 export default class TreeNode extends UIBase implements IUI{
-    private _data:treeNodeData;
+    private _data:treeData;
     private aches:UIBase[] = [];
     state:treeNodeState = treeNodeState.none;
     /**保存的所属树 */
@@ -50,13 +50,14 @@ export default class TreeNode extends UIBase implements IUI{
         this.DOM.appendChild(this.renderView.DOM);
     }
 
-    set data(v:treeNodeData){
+    set data(v:treeData){
         this._data = v;
         this.renderView.data = v;
         if(v.state == treeNodeState.open && v.children){
+            let child:TreeNode;
             if(this.state != treeNodeState.open){
                 for(let i of v.children){
-                    let child:TreeNode = this.aches.shift() as TreeNode;
+                    child = this.aches.shift() as TreeNode;
                     if(!child){
                         child = Factory.get(TreeNode);
                         child.itemRender = this.itemRender;
@@ -65,6 +66,12 @@ export default class TreeNode extends UIBase implements IUI{
                     child.belong = this.belong;
                     child.data = i;
                     this.addChild(child);
+                }
+            }else{
+                let idx = 0;
+                for(let i of v.children){
+                    child = this.children[idx++] as TreeNode;
+                    child.data = i;
                 }
             }
         }else{
@@ -100,8 +107,11 @@ export enum treeNodeState{
     none,open,close
 }
 
-type treeNodeData = {
+
+
+export type treeData = {
+    children?:treeData[],
     label:string,
-    state:number,
-    children?:treeNodeData[]
+    state:treeNodeState,
+    T5ID?:number
 }

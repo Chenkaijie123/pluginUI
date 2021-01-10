@@ -1,3 +1,4 @@
+import { command } from "../base/Command";
 import { StringUtil, string_type } from "../utils/StringUtil";
 import Inspector from "./Inspector";
 
@@ -15,6 +16,27 @@ export default class DevtoolPageCtrl {
     constructor() {
         window.addEventListener("load",this.onLoadHandle);
         window.addEventListener("resize",this.onResizeHandle);
+        document.body.addEventListener("keydown",(e:KeyboardEvent) =>{
+            let id = 0
+            switch(e.key){
+               case "a":
+                    id = 1;
+                   break
+                   case "s":
+                    id = 2;
+                   break
+                   case "d":
+                    id = 3;
+                   break
+                   case "f":
+                    id = 4;
+                   break
+                   case "g":
+                    id = 5;
+                   break
+            }
+            this.runCommand(command.SM_SELECT_INSPECTOR,id)
+        })
     }
 
     private onResize():void{
@@ -63,6 +85,18 @@ export default class DevtoolPageCtrl {
         this.middle.style.left = aWid + "px";
         this.middle.style.right = cWid + "px";
         this.right.style.left = aWid + bWid + "px";
+    }
+
+    /**通信接口 */
+    runCommand(cmd:command,data:any):void{
+        switch(cmd){
+            case command.SM_REFLESH_INSPCTOR:
+                this.inspector.reflesh(data);
+                break;
+            case command.SM_SELECT_INSPECTOR:
+                this.inspector.selectTo(data as number);
+                break;
+        }
     }
 
     

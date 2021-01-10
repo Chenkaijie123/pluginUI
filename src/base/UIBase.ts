@@ -13,6 +13,9 @@ export default class UIBase extends Dispatch implements IDespose {
         this.hashCode = ++hashCode;
     }
     addChild(child: UIBase): void {
+        if(child.parent) {
+            child.parent.removeChild(child);
+        }
         this.DOM.appendChild(child.DOM);
         this.children.push(child);
         child.parent = this;

@@ -39,8 +39,8 @@ export default class UIBase extends Dispatch implements IDespose {
             this.parent = null;
         }
 
-        for (let i of this.children) {
-            i.release();
+        while(this.children.length) {
+            this.children[0].release();
         }
         this.children.length = 0;
 

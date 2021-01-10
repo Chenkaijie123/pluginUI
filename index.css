@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    position: relative;
+}
+
+.left{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.middle{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+
+}
+
+.right{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+.pv_tree_select{
+    background-color: cornflowerblue;
+}

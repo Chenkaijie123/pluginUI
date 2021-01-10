@@ -45,7 +45,25 @@ export default class Tree extends UIBase implements IUI {
         }
     }
 
-    selectTo(id:number,nodes?:treeData[],target?:treeData[]):void{
+    /**
+     * 关闭树某一节点，如果不传值，则关闭根节点
+     * @param id 
+     */
+    closeTree(id?:number):void{
+        this._closeTree(id);
+        this.reflesh();
+    }
+
+    /**
+     * 打开根节点到该id的所有节点
+     * @param id 
+     */
+    openTree(id:number):void{
+        this._openTree(id);
+        this.reflesh();
+    }
+
+    private _openTree(id:number,nodes?:treeData[],target?:treeData[]):void{
         nodes = nodes || [];
         target = target || this.data
         for(let d of target){
@@ -55,14 +73,33 @@ export default class Tree extends UIBase implements IUI {
                 });
                 break;
             }else {
-                nodes.push(d);
                 if(d.children && d.children.length){
-                    this.selectTo(id,nodes,d.children)
+                    nodes.push(d);
+                    this._openTree(id,nodes,d.children)
                 }
             }
             nodes.pop()
         }
-        this.reflesh();
+    }
+
+    private _closeTree(id?:number,target?:treeData[]){
+        if(id == void 0){
+            for(let i of this.data){
+                if(i.state != treeNodeState.none){
+                    i.state = treeNodeState.close;
+                }
+            }
+        }else{
+            target = target || this.data
+            for(let i of target){
+                if(i.T5ID == id){
+                    if(i.state != treeNodeState.none){
+                        i.state = treeNodeState.close
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     
